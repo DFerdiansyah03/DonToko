@@ -89,7 +89,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM barang ORDER BY id_barang ASC");
             <td>Rp <?= number_format($r['harga'],2,',','.') ?></td>
             <td><?= $r['stok'] ?></td>
             <td>
-              <button class='btn btn-warning' onclick='editBarang(<?= $r['id_barang'] ?>, "<?= addslashes($r['nama_barang']) ?>", <?= $r['harga'] ?>, <?= $r['stok'] ?>)'>Edit</button>
+              <button class='btn btn-warning edit-btn' data-id='<?= $r['id_barang'] ?>' data-nama='<?= htmlspecialchars($r['nama_barang'], ENT_QUOTES) ?>' data-harga='<?= $r['harga'] ?>' data-stok='<?= $r['stok'] ?>' onclick='editBarang(<?= $r['id_barang'] ?>, "<?= addslashes($r['nama_barang']) ?>", <?= $r['harga'] ?>, <?= $r['stok'] ?>)'>Edit</button>
               <a href='javascript:confirmDelete("barang.php?hapus=<?= $r['id_barang'] ?>")' class='btn btn-danger'>Hapus</a>
             </td>
           </tr>
@@ -184,6 +184,23 @@ $data = mysqli_query($koneksi, "SELECT * FROM barang ORDER BY id_barang ASC");
 </div>
 <footer class='footer'>Dibuat untuk UTS - Toko Donny</footer>
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'></script>
+<script>
+// Edit Barang
+function editBarang(id, nama, harga, stok) {
+    console.log('editBarang called:', {id, nama, harga, stok});
+    document.getElementById('edit_id_barang').value = id;
+    document.getElementById('edit_nama_barang').value = nama;
+    document.getElementById('edit_harga').value = harga;
+    document.getElementById('edit_stok').value = stok;
+    const modalElement = document.getElementById('modalEdit');
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    } else {
+        console.error('Modal element not found');
+    }
+}
+</script>
 <script src='assets/js/script.js'></script>
 </body>
 </html>

@@ -169,6 +169,22 @@ $data = mysqli_query($koneksi, "SELECT * FROM pembeli ORDER BY id_pembeli ASC");
 </div>
 <footer class='footer'>Dibuat untuk UTS - Toko Donny</footer>
 <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'></script>
+<script>
+// Edit Pembeli
+function editPembeli(id, nama, alamat) {
+    console.log('editPembeli called:', {id, nama, alamat});
+    document.getElementById('edit_id_pembeli').value = id;
+    document.getElementById('edit_nama_pembeli').value = nama;
+    document.getElementById('edit_alamat').value = alamat;
+    const modalElement = document.getElementById('modalEdit');
+    if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show();
+    } else {
+        console.error('Modal element not found');
+    }
+}
+</script>
 <script src='assets/js/script.js'></script>
 </body>
 </html>

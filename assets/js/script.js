@@ -4,22 +4,9 @@ function confirmDelete(url) {
     new bootstrap.Modal(document.getElementById('modalHapus')).show();
 }
 
-// Edit Barang
-function editBarang(id, nama, harga, stok) {
-    document.getElementById('edit_id_barang').value = id;
-    document.getElementById('edit_nama_barang').value = nama;
-    document.getElementById('edit_harga').value = harga;
-    document.getElementById('edit_stok').value = stok;
-    new bootstrap.Modal(document.getElementById('modalEdit')).show();
-}
+// Edit Barang function is now in barang.php inline script
 
-// Edit Pembeli
-function editPembeli(id, nama, alamat) {
-    document.getElementById('edit_id_pembeli').value = id;
-    document.getElementById('edit_nama_pembeli').value = nama;
-    document.getElementById('edit_alamat').value = alamat;
-    new bootstrap.Modal(document.getElementById('modalEdit')).show();
-}
+// Edit Pembeli function is now in pembeli.php inline script
 
 // Sidebar toggle
 document.addEventListener('DOMContentLoaded', function() {
