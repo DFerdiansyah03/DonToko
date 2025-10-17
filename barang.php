@@ -89,7 +89,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM barang ORDER BY id_barang ASC");
             <td>Rp <?= number_format($r['harga'],2,',','.') ?></td>
             <td><?= $r['stok'] ?></td>
             <td>
-              <a href='barang.php?edit=<?= $r['id_barang'] ?>' class='btn btn-warning'>Edit</a>
+              <button class='btn btn-warning' onclick='editBarang(<?= $r['id_barang'] ?>, "<?= addslashes($r['nama_barang']) ?>", <?= $r['harga'] ?>, <?= $r['stok'] ?>)'>Edit</button>
               <a href='javascript:confirmDelete("barang.php?hapus=<?= $r['id_barang'] ?>")' class='btn btn-danger'>Hapus</a>
             </td>
           </tr>
@@ -129,23 +129,37 @@ $data = mysqli_query($koneksi, "SELECT * FROM barang ORDER BY id_barang ASC");
   </div>
 </div>
 
-<?php if(isset($_GET['edit'])){
-    $id = intval($_GET['edit']);
-    $row = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM barang WHERE id_barang=$id"));
-?>
-<div class='card mt-3'>
-  <div class='card-body'>
-    <h5 class='card-title'>Edit Barang</h5>
-    <form method='post' style='display: flex; gap: 10px; align-items: end; margin-bottom: 10px;'>
-      <input type='hidden' name='id_barang' value='<?= $row['id_barang'] ?>'>
-      <div style='flex: 2;'><input class='form-control' name='nama_barang' value='<?= $row['nama_barang'] ?>' required></div>
-      <div style='flex: 1;'><input type='number' step='0.01' class='form-control' name='harga' value='<?= $row['harga'] ?>' required></div>
-      <div style='flex: 1;'><input type='number' class='form-control' name='stok' value='<?= $row['stok'] ?>' min='0' required></div>
-      <div style='flex: 1;'><button class='btn btn-success' name='update'>Update</button></div>
-    </form>
+<!-- Modal Edit Barang -->
+<div class='modal fade' id='modalEdit' tabindex='-1'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title'>Edit Barang</h5>
+        <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+      </div>
+      <div class='modal-body'>
+        <form method='post' onsubmit="document.querySelector('button[name=update]').innerHTML='Loading...';">
+          <input type='hidden' name='id_barang' id='edit_id_barang'>
+          <div class='mb-3'>
+            <label class='form-label'>Nama Barang</label>
+            <input class='form-control' name='nama_barang' id='edit_nama_barang' placeholder='Nama Barang' required>
+          </div>
+          <div class='mb-3'>
+            <label class='form-label'>Harga</label>
+            <input type='number' step='0.01' class='form-control' name='harga' id='edit_harga' placeholder='Harga' required>
+          </div>
+          <div class='mb-3'>
+            <label class='form-label'>Stok</label>
+            <input type='number' class='form-control' name='stok' id='edit_stok' placeholder='Stok' min='0' required>
+          </div>
+          <button type='submit' class='btn btn-success' name='update'>Update</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
-<?php } ?>
+
+
 
 <!-- Modal Hapus -->
 <div class='modal fade' id='modalHapus' tabindex='-1'>

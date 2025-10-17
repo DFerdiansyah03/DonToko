@@ -82,7 +82,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pembeli ORDER BY id_pembeli ASC");
             <td><?= $r['nama_pembeli'] ?></td>
             <td><?= $r['alamat'] ?></td>
             <td>
-              <a href='pembeli.php?edit=<?= $r['id_pembeli'] ?>' class='btn btn-warning'>Edit</a>
+              <button class='btn btn-warning' onclick='editPembeli(<?= $r['id_pembeli'] ?>, "<?= addslashes($r['nama_pembeli']) ?>", "<?= addslashes($r['alamat']) ?>")'>Edit</button>
               <a href='javascript:confirmDelete("pembeli.php?hapus=<?= $r['id_pembeli'] ?>")' class='btn btn-danger'>Hapus</a>
             </td>
           </tr>
@@ -118,22 +118,33 @@ $data = mysqli_query($koneksi, "SELECT * FROM pembeli ORDER BY id_pembeli ASC");
   </div>
 </div>
 
-<?php if(isset($_GET['edit'])){
-    $id = intval($_GET['edit']);
-    $row = mysqli_fetch_assoc(mysqli_query($koneksi, "SELECT * FROM pembeli WHERE id_pembeli=$id"));
-?>
-<div class='card mt-3'>
-  <div class='card-body'>
-    <h5 class='card-title'>Edit Pembeli</h5>
-    <form method='post' style='display: flex; gap: 10px; align-items: end; margin-bottom: 10px;'>
-      <input type='hidden' name='id_pembeli' value='<?= $row['id_pembeli'] ?>'>
-      <div style='flex: 1;'><input class='form-control' name='nama_pembeli' value='<?= $row['nama_pembeli'] ?>' required></div>
-      <div style='flex: 1;'><input class='form-control' name='alamat' value='<?= $row['alamat'] ?>' required></div>
-      <div style='flex: 0 0 auto;'><button class='btn btn-success' name='update'>Update</button></div>
-    </form>
+<!-- Modal Edit Pembeli -->
+<div class='modal fade' id='modalEdit' tabindex='-1'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title'>Edit Pembeli</h5>
+        <button type='button' class='btn-close' data-bs-dismiss='modal'></button>
+      </div>
+      <div class='modal-body'>
+        <form method='post' onsubmit="document.querySelector('button[name=update]').innerHTML='Loading...';">
+          <input type='hidden' name='id_pembeli' id='edit_id_pembeli'>
+          <div class='mb-3'>
+            <label class='form-label'>Nama Pembeli</label>
+            <input class='form-control' name='nama_pembeli' id='edit_nama_pembeli' placeholder='Nama Pembeli' required>
+          </div>
+          <div class='mb-3'>
+            <label class='form-label'>Alamat</label>
+            <input class='form-control' name='alamat' id='edit_alamat' placeholder='Alamat' required>
+          </div>
+          <button type='submit' class='btn btn-success' name='update'>Update</button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>
-<?php } ?>
+
+
 
 <!-- Modal Hapus -->
 <div class='modal fade' id='modalHapus' tabindex='-1'>
